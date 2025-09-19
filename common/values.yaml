@@ -1,0 +1,334 @@
+################################################################################
+# Global options
+################################################################################
+global:
+  image:
+    # global image pull policy to use for all container images in the chart
+    # can be overridden by individual image pullPolicy
+    pullPolicy:
+    # global list of secret names to use as image pull secrets for all pod specs in the chart
+    # secrets must exist in the same namespace
+    # https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+    pullSecretNames: []
+    # global registry to use for all container images in the chart
+    # can be overridden by individual image registry
+    registry:
+
+  # global labels will be applied to all resources deployed by the chart
+  labels: {}
+
+################################################################################
+# Common options
+################################################################################
+# override name of the chart
+nameOverride:
+# override full name of the chart+release
+fullnameOverride:
+# override the namespace that resources are installed into
+namespaceOverride:
+# component label to apply to all resources
+component:
+
+################################################################################
+# Workload (Deployment or StatefulSet)
+################################################################################
+workload:
+  # type: deployment or statefulset
+  type: deployment
+  # number of replicas
+  replicas: 1
+  # name override (defaults to common.fullname)
+  name:
+  # serviceName for StatefulSet (defaults to name + "-headless")
+  serviceName:
+
+  # volume claim templates for StatefulSet
+  volumeClaimTemplates: []
+  # example:
+  # - name: data
+  #   size: 1Gi
+  #   storageClassName: fast-ssd
+  #   merge: {}
+  #   patch: []
+
+  # pod template configuration
+  podTemplate:
+    # volumes to mount in the pod
+    volumes: []
+
+    # init containers
+    # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#container-v1-core
+    initContainers: []
+    # example:
+    # - name: init-db
+    #   image: busybox:1.28
+    #   command: ['sh', '-c', 'until nslookup mydb; do echo waiting for mydb; sleep 2; done;']
+
+    # pod security context
+    # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#podsecuritycontext-v1-core
+    securityContext: {}
+    # example:
+    # securityContext:
+    #   runAsNonRoot: true
+    #   runAsUser: 1000
+    #   fsGroup: 2000
+
+    # node selector
+    # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#nodeselector-v1-core
+    nodeSelector: {}
+    # example:
+    # nodeSelector:
+    #   kubernetes.io/arch: amd64
+
+    # affinity rules
+    # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#affinity-v1-core
+    affinity: {}
+    # example:
+    # affinity:
+    #   nodeAffinity:
+    #     requiredDuringSchedulingIgnoredDuringExecution:
+    #       nodeSelectorTerms:
+    #       - matchExpressions:
+    #         - key: kubernetes.io/arch
+    #           operator: In
+    #           values: [amd64]
+
+    # tolerations
+    # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#toleration-v1-core
+    tolerations: []
+    # example:
+    # - key: "key1"
+    #   operator: "Equal"
+    #   value: "value1"
+    #   effect: "NoSchedule"
+
+    # merge or patch the pod template
+    # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#pod-v1-core
+    merge: {}
+    patch: []
+
+  # merge or patch the workload
+  # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#deployment-v1-apps
+  # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#statefulset-v1-apps
+  merge: {}
+  patch: []
+
+################################################################################
+# Container configuration
+################################################################################
+container:
+  # name of the container (defaults to "app")
+  name:
+
+  image:
+    repository:
+    tag:
+    pullPolicy:
+    registry:
+    # if digest is provided, it overrides tag (example: "sha256:abcdef1234567890")
+    digest:
+    # if fullImageName is provided, it overrides registry, repository, tag, and digest
+    fullImageName:
+
+  # container command and args
+  # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#container-v1-core
+  command: []
+  # example:
+  # command: ["/bin/sh"]
+  args: []
+  # example:
+  # args: ["-c", "while true; do echo hello; sleep 10; done"]
+
+  # container port options
+  # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#containerport-v1-core
+  ports: {}
+  # example:
+  # http:
+  #   port: 8080
+  #   protocol: TCP
+  # grpc:
+  #   port: 9000
+
+  # map with key as env var name, value can be string or map
+  # example:
+  #
+  #   env:
+  #     LOG_LEVEL: info
+  #     SECRET_TOKEN:
+  #       valueFrom:
+  #         secretKeyRef:
+  #           name: app-secrets
+  #           key: token
+  env: {}
+
+  # container resources
+  resources: {}
+  # example:
+  # resources:
+  #   limits:
+  #     memory: "128Mi"
+  #     cpu: "500m"
+  #   requests:
+  #     memory: "64Mi"
+  #     cpu: "250m"
+
+  # volume mounts
+  volumeMounts: []
+  # example:
+  # - name: config
+  #   mountPath: /etc/config
+  #   readOnly: true
+
+  # container security context
+  # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#securitycontext-v1-core
+  securityContext: {}
+  # example:
+  # securityContext:
+  #   runAsNonRoot: true
+  #   runAsUser: 1000
+  #   runAsGroup: 3000
+  #   readOnlyRootFilesystem: true
+
+  # container probes
+  # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#probe-v1-core
+  readinessProbe: {}
+  # example:
+  # readinessProbe:
+  #   httpGet:
+  #     path: /health
+  #     port: http
+  #   initialDelaySeconds: 5
+  #   periodSeconds: 10
+
+  livenessProbe: {}
+  # example:
+  # livenessProbe:
+  #   httpGet:
+  #     path: /health
+  #     port: http
+  #   initialDelaySeconds: 30
+  #   periodSeconds: 30
+
+  startupProbe: {}
+  # example:
+  # startupProbe:
+  #   httpGet:
+  #     path: /health
+  #     port: http
+  #   failureThreshold: 30
+  #   periodSeconds: 10
+
+  # merge or patch the container
+  # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#container-v1-core
+  merge: {}
+  patch: []
+
+################################################################################
+# Service
+################################################################################
+service:
+  enabled: false 
+  # service type
+  type: ClusterIP
+  # name override (defaults to common.fullname)
+  name:
+
+  # service port options
+  # additional boolean field enable to control whether port is exposed in the service
+  # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#serviceport-v1-core
+  ports: {}
+  # example:
+  # http:
+  #   enabled: true
+  #   port: 80
+  #   targetPort: 8080
+  #   protocol: TCP
+
+  # merge or patch the service
+  # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#service-v1-core
+  merge: {}
+  patch: []
+
+################################################################################
+# ConfigMap
+################################################################################
+configMap:
+  enabled: false
+  # name override (defaults to common.fullname + "-config")
+  name:
+
+  # configmap data
+  data: {}
+  # example:
+  # data:
+  #   config.yaml: |
+  #     key: value
+
+  # merge or patch the config map
+  # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#configmap-v1-core
+  merge: {}
+  patch: []
+
+################################################################################
+# ServiceAccount
+################################################################################
+serviceAccount:
+  enabled: false
+  # create a new service account
+  create: true
+  # name override (defaults to common.fullname)
+  name:
+
+  # service account annotations
+  annotations: {}
+  # example:
+  # annotations:
+  #   eks.amazonaws.com/role-arn: arn:aws:iam::123456789012:role/my-role
+
+  # automount service account token
+  automountServiceAccountToken: true
+
+  # merge or patch the service account
+  # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#serviceaccount-v1-core
+  merge: {}
+  patch: []
+
+################################################################################
+# Ingress
+################################################################################
+ingress:
+  enabled: false
+  # ingress class name
+  className:
+  # name override (defaults to common.fullname)
+  name:
+
+  # ingress annotations
+  annotations: {}
+  # example:
+  # annotations:
+  #   nginx.ingress.kubernetes.io/rewrite-target: /
+  #   cert-manager.io/cluster-issuer: letsencrypt-prod
+
+  # ingress hosts configuration
+  hosts: []
+  # example:
+  # - host: myapp.example.com
+  #   paths:
+  #   - path: /
+  #     pathType: Prefix
+  #     service:
+  #       name: myapp
+  #       port: 80
+
+  # TLS configuration
+  tls: []
+  # example:
+  # - secretName: myapp-tls
+  #   hosts:
+  #   - myapp.example.com
+
+  # merge or patch the ingress
+  # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#ingress-v1-networking
+  merge: {}
+  patch: []

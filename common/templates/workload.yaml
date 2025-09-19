@@ -1,0 +1,8 @@
+{{- include "common.defaultValues" . }}
+{{- with .Values.workload }}
+{{- if eq .type "deployment" }}
+{{- include "common.loadMergePatch" (merge (dict "file" "workload/deployment.yaml" "ctx" $) .) }}
+{{- else if eq .type "statefulset" }}
+{{- include "common.loadMergePatch" (merge (dict "file" "workload/statefulset.yaml" "ctx" $) .) }}
+{{- end }}
+{{- end }}

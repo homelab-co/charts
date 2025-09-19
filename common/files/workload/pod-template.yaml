@@ -1,0 +1,86 @@
+metadata:
+  labels:
+    {{- include "common.selectorLabels" $ | nindent 4 }}
+spec:
+  {{- if .Values.serviceAccount.enabled }}
+  serviceAccountName: {{ .Values.serviceAccount.name }}
+  {{- end }}
+  {{- with .Values.global.image.pullSecretNames }}
+  imagePullSecrets:
+  {{- range . }}
+  - name: {{ . | quote }}
+  {{- end }}
+  {{- end }}
+  containers:
+  - name: {{ .Values.container.name | default "app" }}
+    {{- include "common.image" (merge .Values.container.image .Values.global.image) | nindent 4 }}
+    {{- with .Values.container.command }}
+    command:
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+    {{- with .Values.container.args }}
+    args:
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+    {{- with .Values.container.ports }}
+    ports:
+    {{- range $name, $config := . }}
+    - name: {{ $name }}
+      containerPort: {{ $config.containerPort | default $config.port }}
+      {{- with $config.protocol }}
+      protocol: {{ . }}
+      {{- end }}
+    {{- end }}
+    {{- end }}
+    {{- with .Values.container.env }}
+    env:
+    {{- include "common.env" . | nindent 4 }}
+    {{- end }}
+    {{- with .Values.container.resources }}
+    resources:
+      {{- toYaml . | nindent 6 }}
+    {{- end }}
+    {{- with .Values.container.volumeMounts }}
+    volumeMounts:
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+    {{- with .Values.container.securityContext }}
+    securityContext:
+      {{- toYaml . | nindent 6 }}
+    {{- end }}
+    {{- with .Values.container.readinessProbe }}
+    readinessProbe:
+      {{- toYaml . | nindent 6 }}
+    {{- end }}
+    {{- with .Values.container.livenessProbe }}
+    livenessProbe:
+      {{- toYaml . | nindent 6 }}
+    {{- end }}
+    {{- with .Values.container.startupProbe }}
+    startupProbe:
+      {{- toYaml . | nindent 6 }}
+    {{- end }}
+  {{- with .Values.workload.podTemplate.initContainers }}
+  initContainers:
+  {{- toYaml . | nindent 2 }}
+  {{- end }}
+  {{- with .Values.workload.podTemplate.volumes }}
+  volumes:
+  {{- toYaml . | nindent 2 }}
+  {{- end }}
+  {{- with .Values.workload.podTemplate.securityContext }}
+  securityContext:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.workload.podTemplate.nodeSelector }}
+  nodeSelector:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.workload.podTemplate.affinity }}
+  affinity:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.workload.podTemplate.tolerations }}
+  tolerations:
+  {{- toYaml . | nindent 2 }}
+  {{- end }}

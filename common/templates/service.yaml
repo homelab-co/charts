@@ -1,0 +1,6 @@
+{{- if .Values.service.enabled }}
+{{- include "common.defaultValues" . }}
+{{- with .Values.service }}
+{{- include "common.loadMergePatch" (merge (dict "file" "service/service.yaml" "ctx" $) .) }}
+{{- end }}
+{{- end }}

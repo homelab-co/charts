@@ -1,0 +1,16 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  {{- include "common.metadataNamespace" $ | nindent 2 }}
+  name: {{ .Values.workload.name }}
+  labels:
+    {{- include "common.labels" $ | nindent 4 }}
+spec:
+  replicas: {{ .Values.workload.replicas | default 1 }}
+  selector:
+    matchLabels:
+      {{- include "common.selectorLabels" $ | nindent 6 }}
+  template:
+    {{- with .Values.workload.podTemplate }}
+    {{ include "common.loadMergePatch" (merge (dict "file" "workload/pod-template.yaml" "ctx" $) .) | nindent 4 }}
+    {{- end }}

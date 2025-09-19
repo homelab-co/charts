@@ -1,0 +1,6 @@
+{{- if .Values.configMap.enabled }}
+{{- include "common.defaultValues" . }}
+{{- with .Values.configMap }}
+{{- include "common.loadMergePatch" (merge (dict "file" "config/configmap.yaml" "ctx" $) .) }}
+{{- end }}
+{{- end }}

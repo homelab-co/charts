@@ -1,0 +1,6 @@
+{{- include "common.defaultValues" . }}
+{{- with .Values.ingress }}
+{{- if .enabled }}
+{{- include "common.loadMergePatch" (merge (dict "file" "ingress/ingress.yaml" "ctx" $) .) }}
+{{- end }}
+{{- end }}
