@@ -1,7 +1,7 @@
 apiVersion: v2
 name: common
 description: A common Helm library chart
-# type: common
+type: library
 version: 0.1.0
 keywords:
 - common

@@ -57,7 +57,7 @@ workload:
     volumes: []
 
     # init containers
-    # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#container-v1-core
+    # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#container-v1-core
     initContainers: []
     # example:
     # - name: init-db
@@ -65,7 +65,7 @@ workload:
     #   command: ['sh', '-c', 'until nslookup mydb; do echo waiting for mydb; sleep 2; done;']
 
     # pod security context
-    # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#podsecuritycontext-v1-core
+    # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#podsecuritycontext-v1-core
     securityContext: {}
     # example:
     # securityContext:
@@ -74,14 +74,14 @@ workload:
     #   fsGroup: 2000
 
     # node selector
-    # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#nodeselector-v1-core
+    # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#nodeselector-v1-core
     nodeSelector: {}
     # example:
     # nodeSelector:
     #   kubernetes.io/arch: amd64
 
     # affinity rules
-    # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#affinity-v1-core
+    # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#affinity-v1-core
     affinity: {}
     # example:
     # affinity:
@@ -94,7 +94,7 @@ workload:
     #           values: [amd64]
 
     # tolerations
-    # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#toleration-v1-core
+    # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#toleration-v1-core
     tolerations: []
     # example:
     # - key: "key1"
@@ -103,13 +103,13 @@ workload:
     #   effect: "NoSchedule"
 
     # merge or patch the pod template
-    # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#pod-v1-core
+    # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#pod-v1-core
     merge: {}
     patch: []
 
   # merge or patch the workload
-  # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#deployment-v1-apps
-  # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#statefulset-v1-apps
+  # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#deployment-v1-apps
+  # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#statefulset-v1-apps
   merge: {}
   patch: []
 
@@ -131,7 +131,7 @@ container:
     fullImageName:
 
   # container command and args
-  # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#container-v1-core
+  # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#container-v1-core
   command: []
   # example:
   # command: ["/bin/sh"]
@@ -140,7 +140,7 @@ container:
   # args: ["-c", "while true; do echo hello; sleep 10; done"]
 
   # container port options
-  # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#containerport-v1-core
+  # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#containerport-v1-core
   ports: {}
   # example:
   # http:
@@ -180,7 +180,7 @@ container:
   #   readOnly: true
 
   # container security context
-  # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#securitycontext-v1-core
+  # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#securitycontext-v1-core
   securityContext: {}
   # example:
   # securityContext:
@@ -190,7 +190,7 @@ container:
   #   readOnlyRootFilesystem: true
 
   # container probes
-  # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#probe-v1-core
+  # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#probe-v1-core
   readinessProbe: {}
   # example:
   # readinessProbe:
@@ -219,7 +219,7 @@ container:
   #   periodSeconds: 10
 
   # merge or patch the container
-  # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#container-v1-core
+  # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#container-v1-core
   merge: {}
   patch: []
 
@@ -235,7 +235,7 @@ service:
 
   # service port options
   # additional boolean field enable to control whether port is exposed in the service
-  # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#serviceport-v1-core
+  # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#serviceport-v1-core
   ports: {}
   # example:
   # http:
@@ -245,7 +245,7 @@ service:
   #   protocol: TCP
 
   # merge or patch the service
-  # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#service-v1-core
+  # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#service-v1-core
   merge: {}
   patch: []
 
@@ -265,7 +265,7 @@ configMap:
   #     key: value
 
   # merge or patch the config map
-  # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#configmap-v1-core
+  # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#configmap-v1-core
   merge: {}
   patch: []
 
@@ -289,7 +289,7 @@ serviceAccount:
   automountServiceAccountToken: true
 
   # merge or patch the service account
-  # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#serviceaccount-v1-core
+  # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#serviceaccount-v1-core
   merge: {}
   patch: []
 
@@ -329,6 +329,6 @@ ingress:
   #   - myapp.example.com
 
   # merge or patch the ingress
-  # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#ingress-v1-networking
+  # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.34/#ingress-v1-networking
   merge: {}
   patch: []
